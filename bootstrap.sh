@@ -15,7 +15,7 @@ fancy_echo() {
   local fmt="$1"; shift
 
   # shellcheck disable=SC2059
-  printf "\n\033[32m[BOOTSTRAP]\033[0m] $fmt\n" "$@"
+  printf "\n\033[32m[BOOTSTRAP]\033[0m $fmt\n" "$@"
 }
 
 ################################################################################
@@ -24,14 +24,17 @@ fancy_echo() {
 
 osname=$(uname)
 
-export COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
+COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
+DOTFILES_REPO_URL="https://github.com/ludicrypt/dotfiles.git"
+DEFAULT_DOTFILES_BRANCH="working"
+DOTFILES_DIR="${HOME}/dotfiles"
 
 ################################################################################
 # Make sure we're on a Mac before continuing
 ################################################################################
 
 if [ "$osname" != "Darwin" ]; then
-  bootstrap_echo "Oops, it looks like you're using a non-UNIX system. This script
+  fancy_echo "Oops, it looks like you're using a non-UNIX system. This script
 only supports Mac. Exiting..."
   exit 1
 fi
@@ -53,6 +56,7 @@ fi
 # Get elavated
 ################################################################################
 
+fancy_echo "Get elevated..."
 sudo -v
 
 # Keep-alive: update existing `sudo` time stamp until `bootstrap.sh` has finished
@@ -70,7 +74,7 @@ fi
 fancy_echo "Updating Homebrew..."
 brew update
 
-fancy_echo "Installing a bunch of stuff..."
+fancy_echo "Installing a bunch of stuff (this'll take a while so probably want to go detail the lambo or something)..."
 brew bundle --file=- <<EOF
 #tap "adoptopenjdk/openjdk"
 #tap "armmbed/formulae"
@@ -125,11 +129,18 @@ cask "visual-studio"
 cask "visual-studio-code"
 cask "vivaldi"
 cask "wireshark"
+mas "Compressor", id: 424390742
+mas "Final Cut Pro", id: 424389933
+mas "GoodNotes", id: 1444383602
 mas "Hex Fiend", id: 1342896380
+mas "iMovie", id: 408981434
+mas "Logic Pro", id: 634148309
 #mas "Magnet", id: 441258766
+mas "MainStage", id: 634159523
 #mas "Microsoft Remote Desktop", id: 1295203466
 #mas "Monit", id: 1014850245
 mas "Moom", id: 419330170
+mas "Motion", id: 434290957
 mas "Pocket MIDI", id: 1260936756
 mas "Synalyze It! Pro", id: 475193367
 mas "Voxel Max", id: 1442352186
@@ -140,11 +151,47 @@ fancy_echo "Cleaning up..."
 brew cleanup
 
 ################################################################################
-# Peace out
+# Install oh-my-zsh
 ################################################################################
 
 fancy_echo "Installing oh-my-zsh..."
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+source ~/.zshrc
+
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+
+# TODO: Add plugins to ~/.zshrc, for example:
+#
+# plugins=(
+#   git
+#   zsh-autosuggestions
+#   zsh-syntax-highlighting
+# )
+#
+# Added by Krypton
+# export GPG_TTY=$(tty)
+#
+# Override LibreSSL
+# export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+
+################################################################################
+# Clone https://github.com/ludicrypt/dotfiles.git
+################################################################################
+
+fancy_echo "Cloning dotfiles repo..."
+git clone "$DOTFILES_REPO_URL" -b "$DOTFILES_BRANCH" "$DOTFILES_DIR"
+
+################################################################################
+# Set macOS preferences
+################################################################################
+
+fancy_echo "Setting macOS preferences..."
+
+# shellcheck source=/dev/null
+source "${DOTFILES_DIR}/macos-defaults.sh"
 
 ################################################################################
 # Peace out
