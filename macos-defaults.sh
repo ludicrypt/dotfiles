@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+# TODO:
+# - Enable firewall
+# - Enable password immediately on screensaver
+# - enable full disk encryption
+
 # Adapted from https://github.com/joshukraine/mac-bootstrap/blob/master/install/macos-defaults
 
 # Close any open System Preferences panes, to prevent them from overriding

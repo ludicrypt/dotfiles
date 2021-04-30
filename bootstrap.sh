@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+# TODO:
+# - programatically install Xcode command line tools and accept license
+# - Only install Mac apps with mas if they aren't already installed
+
 ################################################################################
 # bootstrap.sh
 #
@@ -26,7 +30,7 @@ osname=$(uname)
 
 COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
 DOTFILES_REPO_URL="https://github.com/ludicrypt/dotfiles.git"
-DEFAULT_DOTFILES_BRANCH="working"
+DOTFILES_BRANCH="working"
 DOTFILES_DIR="${HOME}/dotfiles"
 
 ################################################################################
