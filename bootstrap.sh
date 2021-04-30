@@ -158,6 +158,11 @@ brew cleanup
 ################################################################################
 
 fancy_echo "Installing oh-my-zsh..."
+
+if [ -d "${HOME}/.oh-my-zsh" ]; then
+  rm -rf "${HOME}/.oh-my-zsh"
+fi
+
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 if [ -d /usr/local/share/zsh ]; then
@@ -172,9 +177,11 @@ fi
 
 #source ~/.zshrc
 
-#git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
-#git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
-#git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
+
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 
 # TODO: Add plugins to ~/.zshrc, for example:
 #
