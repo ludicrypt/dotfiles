@@ -147,6 +147,8 @@ mas "Voxel Max", id: 1442352186
 mas "Xcode", id: 497799835
 EOF
 
+sudo xcodebuild -license accept
+
 fancy_echo "Cleaning up..."
 brew cleanup
 
