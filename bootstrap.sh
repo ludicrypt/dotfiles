@@ -147,6 +147,7 @@ mas "Voxel Max", id: 1442352186
 mas "Xcode", id: 497799835
 EOF
 
+fancy_echo "Accepting Xcode license..."
 sudo xcodebuild -license accept
 
 fancy_echo "Cleaning up..."
@@ -159,11 +160,21 @@ brew cleanup
 fancy_echo "Installing oh-my-zsh..."
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-source ~/.zshrc
+if [ -d /usr/local/share/zsh ]; then
+  fancy_echo "Setting permissions for /usr/local/share/zsh..."
+  sudo chmod -R 755 /usr/local/share/zsh
+fi
 
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
-git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+if [ -d /usr/local/share/zsh/site-functions ]; then
+  fancy_echo "Setting permissions for /usr/local/share/zsh/site-functions..."
+  sudo chmod -R 755 /usr/local/share/zsh/site-functions
+fi
+
+#source ~/.zshrc
+
+#git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+#git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+#git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 
 # TODO: Add plugins to ~/.zshrc, for example:
 #

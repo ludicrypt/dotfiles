@@ -52,13 +52,16 @@ defaults write com.apple.finder _FXSortFoldersFirst -bool true
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-# Use column view in all Finder windows by default
+# Use list view in all Finder windows by default
 # Four-letter codes for all view modes: `icnv`, `clmv`, `Flwv`, `Nlsv`
-defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv "
 
 ################################################################################
 # Dock, Dashboard, and hot corners
 ################################################################################
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
 
 # Set the icon size of Dock items to 46 pixels
 defaults write com.apple.dock tilesize -int 46
