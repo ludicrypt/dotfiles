@@ -148,11 +148,11 @@ mas "Motion", id: 434290957
 mas "Pocket MIDI", id: 1260936756
 mas "Synalyze It! Pro", id: 475193367
 mas "Voxel Max", id: 1442352186
-mas "Xcode", id: 497799835
+#mas "Xcode", id: 497799835
 EOF
 
-fancy_echo "Accepting Xcode license..."
-sudo xcodebuild -license accept
+#fancy_echo "Accepting Xcode license..."
+#sudo xcodebuild -license accept
 
 fancy_echo "Cleaning up..."
 brew cleanup
@@ -187,19 +187,11 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/the
 git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 
-# TODO: Add plugins to ~/.zshrc, for example:
-#
-# plugins=(
-#   git
-#   zsh-autosuggestions
-#   zsh-syntax-highlighting
-# )
-#
-# Added by Krypton
-# export GPG_TTY=$(tty)
-#
-# Override LibreSSL
-# export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+sed -i '' 's#ZSH_THEME="robbyrussell"#ZSH_THEME="powerlevel10k/powerlevel10k"#g' ~/.zshrc
+
+sed -i '' $'s#plugins=(git)#plugins=(\\\n  git\\\n  zsh-autosuggestions\\\n  zsh-syntax-highlighting\\\n)#g' ~/.zshrc
+
+echo $'\nexport PATH="/usr/local/opt/openssl@1.1/bin:$PATH"' >> ~/.zshrc
 
 ################################################################################
 # Clone https://github.com/ludicrypt/dotfiles.git
@@ -216,6 +208,41 @@ fancy_echo "Setting macOS preferences..."
 
 # shellcheck source=/dev/null
 source "${DOTFILES_DIR}/macos-defaults.sh"
+
+################################################################################
+# Download and install fonts for Powerlevel10k
+################################################################################
+
+curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf -o MesloLGS\ NF\ Regular.ttf
+curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold.ttf -o MesloLGS\ NF\ Bold.ttf
+curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Italic.ttf -o MesloLGS\ NF\ Italic.ttf
+curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold%20Italic.ttf -o MesloLGS\ NF\ Bold\ Italic.ttf
+
+mv MesloLGS\ NF\ Regular.ttf ~/Library/Fonts
+mv MesloLGS\ NF\ Bold.ttf ~/Library/Fonts
+mv MesloLGS\ NF\ Italic.ttf ~/Library/Fonts
+mv MesloLGS\ NF\ Bold\ Italic.ttf ~/Library/Fonts
+
+curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Bold.ttf -o FiraCode-Bold.ttf
+curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Light.ttf -o FiraCode-Light.ttf
+curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Medium.ttf -o FiraCode-Medium.ttf
+curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Regular.ttf -o FiraCode-Regular.ttf
+curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Retina.ttf -o FiraCode-Retina.ttf
+curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-SemiBold.ttf -o FiraCode-SemiBold.ttf
+
+mv FiraCode-Bold.ttf ~/Library/Fonts
+mv FiraCode-Light.ttf ~/Library/Fonts
+mv FiraCode-Medium.ttf ~/Library/Fonts
+mv FiraCode-Regular.ttf ~/Library/Fonts
+mv FiraCode-Retina.ttf ~/Library/Fonts
+mv FiraCode-SemiBold.ttf ~/Library/Fonts
+
+################################################################################
+# Setup iTerm2
+################################################################################
+
+open "${DOTFILES_DIR}/iTerm2/Solarized Dark - Patched.itermcolors"
+open "${DOTFILES_DIR}/iTerm2/Solarized Light.itermcolors"
 
 ################################################################################
 # Peace out
