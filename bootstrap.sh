@@ -198,6 +198,11 @@ echo $'\nexport PATH="/usr/local/opt/openssl@1.1/bin:$PATH"' >> ~/.zshrc
 ################################################################################
 
 fancy_echo "Cloning dotfiles repo..."
+
+if [ -d "${DOTFILES_DIR}" ]; then
+  rm -rf "${DOTFILES_DIR}"
+fi
+
 git clone "$DOTFILES_REPO_URL" -b "$DOTFILES_BRANCH" "$DOTFILES_DIR"
 
 ################################################################################
@@ -213,22 +218,22 @@ source "${DOTFILES_DIR}/macos-defaults.sh"
 # Download and install fonts for Powerlevel10k
 ################################################################################
 
-curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf -o MesloLGS\ NF\ Regular.ttf
-curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold.ttf -o MesloLGS\ NF\ Bold.ttf
-curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Italic.ttf -o MesloLGS\ NF\ Italic.ttf
-curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold%20Italic.ttf -o MesloLGS\ NF\ Bold\ Italic.ttf
+curl -fsSL --remote-name https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf
+curl -fsSL --remote-name https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold.ttf
+curl -fsSL --remote-name https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Italic.ttf
+curl -fsSL --remote-name https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold%20Italic.ttf
 
 mv MesloLGS\ NF\ Regular.ttf ~/Library/Fonts
 mv MesloLGS\ NF\ Bold.ttf ~/Library/Fonts
 mv MesloLGS\ NF\ Italic.ttf ~/Library/Fonts
 mv MesloLGS\ NF\ Bold\ Italic.ttf ~/Library/Fonts
 
-curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Bold.ttf -o FiraCode-Bold.ttf
-curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Light.ttf -o FiraCode-Light.ttf
-curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Medium.ttf -o FiraCode-Medium.ttf
-curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Regular.ttf -o FiraCode-Regular.ttf
-curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Retina.ttf -o FiraCode-Retina.ttf
-curl -fsSL https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-SemiBold.ttf -o FiraCode-SemiBold.ttf
+curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Bold.ttf
+curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Light.ttf
+curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Medium.ttf
+curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Regular.ttf
+curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Retina.ttf
+curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-SemiBold.ttf
 
 mv FiraCode-Bold.ttf ~/Library/Fonts
 mv FiraCode-Light.ttf ~/Library/Fonts
