@@ -218,10 +218,10 @@ source "${DOTFILES_DIR}/macos-defaults.sh"
 # Download and install fonts for Powerlevel10k
 ################################################################################
 
-curl -fsSL --remote-name https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf
-curl -fsSL --remote-name https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold.ttf
-curl -fsSL --remote-name https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Italic.ttf
-curl -fsSL --remote-name https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold%20Italic.ttf
+curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf -o MesloLGS\ NF\ Regular.ttf
+curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold.ttf -o MesloLGS\ NF\ Bold.ttf
+curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Italic.ttf -o MesloLGS\ NF\ Italic.ttf
+curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold%20Italic.ttf -o MesloLGS\ NF\ Bold\ Italic.ttf
 
 mv MesloLGS\ NF\ Regular.ttf ~/Library/Fonts
 mv MesloLGS\ NF\ Bold.ttf ~/Library/Fonts
