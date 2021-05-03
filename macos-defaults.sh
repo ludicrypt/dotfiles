@@ -2,9 +2,7 @@
 set -e
 
 # TODO:
-# - Enable firewall
-# - Enable password immediately on screensaver
-# - enable full disk encryption
+# - enable FileVault?
 
 # Adapted from https://github.com/joshukraine/mac-bootstrap/blob/master/install/macos-defaults
 
@@ -17,6 +15,26 @@ osascript -e 'tell application "System Preferences" to quit'
 
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 # while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+################################################################################
+# Firewall
+################################################################################
+
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+#sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
+#sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
+
+sudo pkill -HUP socketfilterfw
+
+################################################################################
+# Screen
+################################################################################
+
+# Require password immediately after sleep or screen saver begins
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 ################################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input
