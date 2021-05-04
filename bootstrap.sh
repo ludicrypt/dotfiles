@@ -263,7 +263,7 @@ fi
 
 ln -s "${DOTFILES_DIR}/mackup/.mackup.cfg" "${HOME}/.mackup.cfg"
 
-mackup restore
+mackup -f restore
 
 ################################################################################
 # Set macOS preferences
