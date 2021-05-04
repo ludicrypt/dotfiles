@@ -31,7 +31,7 @@ osname=$(uname)
 COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
 DOTFILES_REPO_URL="https://github.com/ludicrypt/dotfiles.git"
 DOTFILES_BRANCH="working"
-DOTFILES_DIR="${HOME}/dotfiles"
+export DOTFILES_DIR="${HOME}/dotfiles"
 
 ################################################################################
 # Make sure we're on a Mac before continuing
@@ -97,6 +97,7 @@ brew "cmake"
 brew "git"
 brew "go"
 brew "libtool"
+brew "mackup"
 brew "mas"
 brew "ninja"
 brew "node"
@@ -206,17 +207,10 @@ fi
 git clone "$DOTFILES_REPO_URL" -b "$DOTFILES_BRANCH" "$DOTFILES_DIR"
 
 ################################################################################
-# Set macOS preferences
-################################################################################
-
-fancy_echo "Setting macOS preferences..."
-
-# shellcheck source=/dev/null
-source "${DOTFILES_DIR}/macos-defaults.sh"
-
-################################################################################
 # Download and install fonts for Powerlevel10k
 ################################################################################
+
+fancy_echo "Installing fonts..."
 
 curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf -o MesloLGS\ NF\ Regular.ttf
 curl -fsSL https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold.ttf -o MesloLGS\ NF\ Bold.ttf
@@ -246,11 +240,39 @@ mv FiraCode-SemiBold.ttf ~/Library/Fonts
 # Setup iTerm2
 ################################################################################
 
+fancy_echo "Installing iTerm2 color themes..."
+
+# Install the Solarized Dark theme for iTerm
 open "${DOTFILES_DIR}/iTerm2/Solarized Dark - Patched.itermcolors"
 open "${DOTFILES_DIR}/iTerm2/Solarized Light.itermcolors"
+
+################################################################################
+# Mackup restore
+################################################################################
+
+if [ -e "${HOME}/.mackup.cfg" ]; then
+  if [ -L "${HOME}/.mackup.cfg" ]; then
+    unlink "${HOME}/.mackup.cfg"
+  else
+    rm -rf "${HOME}/.mackup.cfg"
+  fi
+fi
+
+ln -s "${DOTFILES_DIR}/mackup/.mackup.cfg" "${HOME}/.mackup.cfg"
+
+mackup restore
+
+################################################################################
+# Set macOS preferences
+################################################################################
+
+fancy_echo "Setting macOS preferences..."
+
+# shellcheck source=/dev/null
+source "${DOTFILES_DIR}/macos-defaults.sh"
 
 ################################################################################
 # Peace out
 ################################################################################
 
-fancy_echo "Done! Now's a good time to restart your computer."
+fancy_echo "Done! Now would be a good time to restart your computer."

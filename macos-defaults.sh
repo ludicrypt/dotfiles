@@ -26,7 +26,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 #sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 #sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 
-sudo pkill -HUP socketfilterfw
+#sudo pkill -HUP socketfilterfw
 
 ################################################################################
 # Screen
