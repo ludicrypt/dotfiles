@@ -155,6 +155,9 @@ EOF
 #fancy_echo "Accepting Xcode license..."
 #sudo xcodebuild -license accept
 
+# Fix ownership set by Parallels
+sudo chown -R $(whoami) /usr/local/share/man/man8
+
 fancy_echo "Cleaning up..."
 brew cleanup
 
