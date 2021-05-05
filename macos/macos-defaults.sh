@@ -41,9 +41,8 @@ sed "s#__YOUR_NAME__#$(id -un)#g" "${DOTFILES_DIR}/macos/askforpassworddelay.mob
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input
 ################################################################################
 
-# TODO: Fix this, still requires manual toggle
-
 # Trackpad: enable tap to click for this user and for the login screen
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1

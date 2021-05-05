@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# TODO:
-# - programatically install Xcode command line tools and accept license
-# - Only install Mac apps with mas if they aren't already installed
-
 ################################################################################
 # bootstrap.sh
 #
@@ -44,19 +40,6 @@ only supports Mac. Exiting..."
 fi
 
 ################################################################################
-# Check for presence of command line tools if macOS
-# Modified from https://github.com/joshukraine/mac-bootstrap/blob/master/bootstrap
-################################################################################
-
-if [ ! -d "$COMMANDLINE_TOOLS" ]; then
-  fancy_echo "Apple's command line developer tools must be installed before
-running this script. To install them, just run 'xcode-select --install' from
-the terminal and then follow the prompts. Once the command line tools have been
-installed, you can try running this script again."
-  exit 1
-fi
-
-################################################################################
 # Get elavated
 ################################################################################
 
@@ -65,6 +48,25 @@ sudo -v
 
 # Keep-alive: update existing `sudo` time stamp until `bootstrap.sh` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+# Prevent sleeping during script execution, as long as the machine is on AC power
+caffeinate -s -w $$ &
+
+################################################################################
+# Install updates
+################################################################################
+
+fancy_echo "Checking for software updates..."
+if softwareupdate --list 2>&1 | grep $Q "No new software available."; then
+  fancy_echo "No software updates available."
+else
+  fancy_echo "Installing software updates..."
+
+  sudo softwareupdate --install --all --restart
+  # TODO: If Xcode installed, accept license
+
+  # TODO: Properly handle restart if needed
+fi
 
 ################################################################################
 # Install Homebrew
