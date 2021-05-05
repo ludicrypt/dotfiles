@@ -242,16 +242,6 @@ mv FiraCode-Retina.ttf ~/Library/Fonts
 mv FiraCode-SemiBold.ttf ~/Library/Fonts
 
 ################################################################################
-# Setup iTerm2
-################################################################################
-
-#fancy_echo "Installing iTerm2 color themes..."
-
-# Install the Solarized Dark theme for iTerm
-#open "${DOTFILES_DIR}/iTerm2/Solarized Dark - Patched.itermcolors"
-#open "${DOTFILES_DIR}/iTerm2/Solarized Light.itermcolors"
-
-################################################################################
 # Mackup restore
 ################################################################################
 
