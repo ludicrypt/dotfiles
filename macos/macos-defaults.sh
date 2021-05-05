@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# TODO:
-# - enable FileVault?
-
 # Adapted from https://github.com/joshukraine/mac-bootstrap/blob/master/install/macos-defaults
 
 # Close any open System Preferences panes, to prevent them from overriding
@@ -32,13 +29,19 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 # Screen
 ################################################################################
 
+# The following is no longer supported as of macOS 10.13 High Sierra
 # Require password immediately after sleep or screen saver begins
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+#defaults write com.apple.screensaver askForPassword -int 1
+#defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+# Require password immediately after sleep or screen saver begins (macOS 10.13+)
+sed "s#__YOUR_NAME__#$(id -un)#g" "${DOTFILES_DIR}/macos/askforpassworddelay.mobileconfig" | /usr/bin/profiles -I -F -
 
 ################################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input
 ################################################################################
+
+# TODO: Fix this, still requires manual toggle
 
 # Trackpad: enable tap to click for this user and for the login screen
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true

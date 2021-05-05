@@ -79,7 +79,7 @@ fancy_echo "Updating Homebrew..."
 brew update
 
 fancy_echo "Installing a bunch of stuff (this'll take a while so probably want to go detail the lambo or something)..."
-brew bundle --file=- <<EOF
+brew bundle --quiet --file=- <<EOF
 #tap "adoptopenjdk/openjdk"
 #tap "armmbed/formulae"
 tap "homebrew/bundle"
@@ -156,7 +156,7 @@ EOF
 #sudo xcodebuild -license accept
 
 # Fix ownership set by Parallels
-sudo chown -R $(whoami) /usr/local/share/man/man8
+sudo chown -R $(id -un) /usr/local/share/man/man8
 
 fancy_echo "Cleaning up..."
 brew cleanup
@@ -253,6 +253,8 @@ mv FiraCode-SemiBold.ttf ~/Library/Fonts
 # Mackup restore
 ################################################################################
 
+fancy_echo "Running mackup restore..."
+
 if [ -e "${HOME}/.mackup.cfg" ]; then
   if [ -L "${HOME}/.mackup.cfg" ]; then
     unlink "${HOME}/.mackup.cfg"
@@ -272,7 +274,7 @@ mackup -f restore
 fancy_echo "Setting macOS preferences..."
 
 # shellcheck source=/dev/null
-source "${DOTFILES_DIR}/macos-defaults.sh"
+source "${DOTFILES_DIR}/macos/macos-defaults.sh"
 
 ################################################################################
 # Peace out
