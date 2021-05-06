@@ -82,10 +82,10 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv "
 
 # Show the ~/Library folder
-chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+#chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
 
 # Show the /Volumes folder
-sudo chflags nohidden /Volumes
+#sudo chflags nohidden /Volumes
 
 ################################################################################
 # Dock, Dashboard, and hot corners

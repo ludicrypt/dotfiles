@@ -59,10 +59,10 @@ caffeinate -s -w $$ &
 fancy_echo "Checking for software updates..."
 
 UPDATE_STATUS=$(softwareupdate --list 2>&1)
-if cat $UPDATE_STATUS | grep $Q "No new software available."; then
+if echo "${UPDATE_STATUS}" | grep $Q "No new software available."; then
   fancy_echo "No software updates available."
 else
-  if cat $UPDATE_STATUS | grep $Q "Action: restart"; then
+  if echo "${UPDATE_STATUS}" | grep $Q "Action: restart"; then
     fancy_echo "Installing software updates (will automatically restart)..."
     sudo softwareupdate --install --all --restart
     # TODO: If Xcode installed, accept license
