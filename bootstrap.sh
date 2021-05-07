@@ -67,6 +67,8 @@ else
     sudo softwareupdate --install --all --restart
     # TODO: If Xcode installed, accept license
 
+    # TODO: Handle graceful closing of terminal (blocked by 'tee' process)
+
     exit 0
   else
     fancy_echo "Installing software updates..."

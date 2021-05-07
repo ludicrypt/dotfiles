@@ -79,17 +79,35 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 # Use list view in all Finder windows by default
 # Four-letter codes for all view modes: `icnv`, `clmv`, `Flwv`, `Nlsv`
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv "
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 # Show the ~/Library folder
-#chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+chflags nohidden ~/Library
 
 # Show the /Volumes folder
 #sudo chflags nohidden /Volumes
 
+# Set Default Finder Location to Home Folder
+defaults write com.apple.finder NewWindowTarget -string "PfLo"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
+
 ################################################################################
-# Dock, Dashboard, and hot corners
+# Menu bar, Dock, Dashboard, and hot corners
 ################################################################################
+
+# Hide Input menu in menu bar
+defaults write com.apple.TextInputMenu visible -bool false
+
+# Show Bluetooth in menu bar
+defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.bluetooth" -bool true
+defaults write com.apple.systemuiserver menuExtras -array-add "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
+
+# Show Volume in menu bar
+defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.volume" -bool true
+defaults write com.apple.systemuiserver menuExtras -array-add "/System/Library/CoreServices/Menu Extras/Volume.menu"
+
+# Restart the menu bar to force a reload
+killall -KILL SystemUIServer
 
 # Set the icon size of Dock items to 46 pixels
 defaults write com.apple.dock tilesize -int 46
@@ -136,51 +154,10 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 defaults write com.apple.terminal StringEncodings -array 4
 
 # Use a modified version of the Solarized Dark theme by default in Terminal.app
-osascript <<EOD
-tell application "Terminal"
-
-    local allOpenedWindows
-    local initialOpenedWindows
-    local windowID
-    set themeName to "Solarized Dark xterm-256color"
-
-    (* Store the IDs of all the open terminal windows. *)
-    set initialOpenedWindows to id of every window
-
-    (* Open the custom theme so that it gets added to the list
-       of available terminal themes (note: this will open two
-       additional terminal windows). *)
-    do shell script "open '$DOTFILES_DIR/terminal/" & themeName & ".terminal'"
-
-    (* Wait a little bit to ensure that the custom theme is added. *)
-    delay 1
-
-    (* Set the custom theme as the default terminal theme. *)
-    set default settings to settings set themeName
-
-    (* Get the IDs of all the currently opened terminal windows. *)
-    set allOpenedWindows to id of every window
-
-    repeat with windowID in allOpenedWindows
-
-
-        (* Close the additional windows that were opened in order
-           to add the custom theme to the list of terminal themes. *)
-        if initialOpenedWindows does not contain windowID then
-            close (every window whose id is windowID)
-
-        (* Change the theme for the initial opened terminal windows
-           to remove the need to close them in order for the custom
-           theme to be applied. *)
-        else
-            set current settings of tabs of (every window whose id is windowID) to settings set themeName
-        end if
-
-    end repeat
-
-end tell
-
-EOD
+plutil -replace Window\ Settings.Solarized\ Dark -xml "$(<$DOTFILES_DIR/terminal/Solarized\ Dark.terminal)" ~/Library/Preferences/com.apple.Terminal.plist
+plutil -replace Window\ Settings.Solarized\ Light -xml "$(<$DOTFILES_DIR/terminal/Solarized\ Light.terminal)" ~/Library/Preferences/com.apple.Terminal.plist
+defaults write com.apple.Terminal "Default Window Settings" -string "Solarized Dark"
+defaults write com.apple.Terminal "Startup Window Settings" -string "Solarized Dark"
 
 # Enable “focus follows mouse” for Terminal.app and all X11 apps
 # i.e. hover over a window and start typing in it without clicking first
