@@ -98,13 +98,14 @@ fancy_echo "Installing a bunch of stuff (this'll take a while so probably want t
 brew bundle --quiet --file=- <<EOF
 #tap "adoptopenjdk/openjdk"
 #tap "armmbed/formulae"
-tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-versions"
 tap "homebrew/cask-fonts"
 tap "homebrew/core"
+tap "homebrew/bundle"
 #tap "kryptco/tap"
 #brew "apktool"
+#brew "armmbed/formulae/arm-none-eabi-gcc"
 brew "autoconf"
 brew "automake"
 brew "azure-cli"
@@ -112,6 +113,7 @@ brew "cmake"
 #brew "dfu-util"
 brew "git"
 brew "go"
+#brew "kryptco/tap/kr"
 brew "libtool"
 brew "mackup"
 brew "mas"
@@ -120,15 +122,15 @@ brew "node"
 brew "openssl@1.1"
 brew "openssl"
 brew "pkg-config"
+brew "python"
 brew "rust"
 brew "shellcheck"
 brew "vim"
-#brew "armmbed/formulae/arm-none-eabi-gcc"
-#brew "kryptco/tap/kr"
 cask "font-fira-code"
 cask "010-editor"
 #cask "adobe-acrobat-reader"
 #cask "adoptopenjdk15"
+cask "airparrot"
 #cask "arduino"
 cask "autodesk-fusion360"
 cask "blender"
@@ -136,17 +138,19 @@ cask "docker"
 cask "dotnet-sdk"
 cask "gitkraken"
 cask "google-chrome"
-#cask "microsoft-edge"
 cask "gpg-suite"
 cask "iterm2"
+cask "lastpass"
 cask "lunar"
 cask "magicavoxel"
+#cask "microsoft-edge"
 cask "midi-monitor"
 #cask "mono-mdk-for-visual-studio"
 cask "obs"
 cask "parallels"
 #cask "powershell"
 cask "raspberry-pi-imager"
+cask "reflector"
 cask "spotify"
 cask "tg-pro"
 cask "tor-browser"
@@ -155,26 +159,28 @@ cask "ultimaker-cura"
 cask "visual-studio-code"
 #cask "vivaldi"
 cask "wireshark"
-#mas "Compressor", id: 424390742
-#mas "Dark Reader for Safari", id: 1438243180
-#mas "Disk Speed Test", id: 425264550
-#mas "Final Cut Pro", id: 424389933
-#mas "GarageBand", id: 682658836
-#mas "GoodNotes", id: 1444383602
-#mas "Hex Fiend", id: 1342896380
-#mas "iMovie", id: 408981434
-#mas "Logic Pro", id: 634148309
-#mas "Magnet", id: 441258766
-#mas "MainStage", id: 634159523
-#mas "Microsoft Remote Desktop", id: 1295203466
-#mas "Moom", id: 419330170
-#mas "Motion", id: 434290957
-#mas "Playgrounds", id: 1496833156
-#mas "Pocket MIDI", id: 1260936756
-#mas "Synalyze It! Pro", id: 475193367
-#mas "Tonebridge Guitar Effects", id: 1263858588
-#mas "Voxel Max", id: 1442352186
-#mas "Xcode", id: 497799835
+mas "Cinebench", id: 1438772273
+mas "Compressor", id: 424390742
+mas "Dark Reader for Safari", id: 1438243180
+mas "Disk Speed Test", id: 425264550
+mas "Final Cut Pro", id: 424389933
+mas "GarageBand", id: 682658836
+mas "Geekbench 5", id: 1478447657
+mas "GoodNotes", id: 1444383602
+mas "Hex Fiend", id: 1342896380
+mas "iMovie", id: 408981434
+mas "Logic Pro", id: 634148309
+mas "Magnet", id: 441258766
+mas "MainStage", id: 634159523
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Moom", id: 419330170
+mas "Motion", id: 434290957
+mas "Playgrounds", id: 1496833156
+mas "Pocket MIDI", id: 1260936756
+mas "Synalyze It! Pro", id: 475193367
+mas "Tonebridge Guitar Effects", id: 1263858588
+mas "Voxel Max", id: 1442352186
+mas "Xcode", id: 497799835
 EOF
 
 #fancy_echo "Accepting Xcode license..."
@@ -228,11 +234,9 @@ echo $'\nexport PATH="/usr/local/opt/openssl@1.1/bin:$PATH"' >> ~/.zshrc
 
 fancy_echo "Cloning dotfiles repo..."
 
-if [ -d "${DOTFILES_DIR}" ]; then
-  rm -rf "${DOTFILES_DIR}"
+if [ ! -d "${DOTFILES_DIR}" ]; then
+  git clone "$DOTFILES_REPO_URL" -b "$DOTFILES_BRANCH" "$DOTFILES_DIR"
 fi
-
-git clone "$DOTFILES_REPO_URL" -b "$DOTFILES_BRANCH" "$DOTFILES_DIR"
 
 ################################################################################
 # Download and install fonts for Powerlevel10k
@@ -254,28 +258,28 @@ mv MesloLGS\ NF\ Bold\ Italic.ttf ~/Library/Fonts
 # Mackup restore
 ################################################################################
 
-fancy_echo "Running mackup restore..."
+#fancy_echo "Running mackup restore..."
 
-if [ -e "${HOME}/.mackup.cfg" ]; then
-  if [ -L "${HOME}/.mackup.cfg" ]; then
-    unlink "${HOME}/.mackup.cfg"
-  else
-    rm -rf "${HOME}/.mackup.cfg"
-  fi
-fi
+#if [ -e "${HOME}/.mackup.cfg" ]; then
+#  if [ -L "${HOME}/.mackup.cfg" ]; then
+#    unlink "${HOME}/.mackup.cfg"
+#  else
+#    rm -rf "${HOME}/.mackup.cfg"
+#  fi
+#fi
 
-ln -s "${DOTFILES_DIR}/mackup/.mackup.cfg" "${HOME}/.mackup.cfg"
+#ln -s "${DOTFILES_DIR}/mackup/.mackup.cfg" "${HOME}/.mackup.cfg"
 
-mackup -f restore
+#mackup -f restore
 
 ################################################################################
 # Set macOS preferences
 ################################################################################
 
-fancy_echo "Setting macOS preferences..."
+#fancy_echo "Setting macOS preferences..."
 
 # shellcheck source=/dev/null
-source "${DOTFILES_DIR}/macos/macos-defaults.sh"
+#source "${DOTFILES_DIR}/macos/macos-defaults.sh"
 
 ################################################################################
 # Peace out
