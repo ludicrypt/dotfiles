@@ -53,6 +53,16 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 caffeinate -s -w $$ &
 
 ################################################################################
+# Install Rosetta 2 if we're on Apple Silicon
+################################################################################
+
+if [[ $(/usr/sbin/sysctl -n machdep.cpu.brand_string) = *"Apple"* ]]; then
+  fancy_echo "Apple Silicon detected, installing Rosetta 2..."
+
+  /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+fi
+
+################################################################################
 # Install updates
 ################################################################################
 
@@ -122,7 +132,7 @@ brew "node"
 brew "openssl@1.1"
 brew "openssl"
 brew "pkg-config"
-brew "python"
+#brew "python"
 brew "rust"
 brew "shellcheck"
 brew "vim"
@@ -135,7 +145,7 @@ cask "airparrot"
 cask "autodesk-fusion360"
 cask "blender"
 cask "docker"
-cask "dotnet-sdk"
+#cask "dotnet-sdk"
 cask "gitkraken"
 cask "google-chrome"
 cask "gpg-suite"
