@@ -35,7 +35,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 #defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # Require password immediately after sleep or screen saver begins (macOS 10.13+)
-sed "s#__YOUR_NAME__#$(id -un)#g" "${DOTFILES_DIR}/macos/askforpassworddelay.mobileconfig" | /usr/bin/profiles -I -F -
+####sed "s#__YOUR_NAME__#$(id -un)#g" "${DOTFILES_DIR}/macos/askforpassworddelay.mobileconfig" | /usr/bin/profiles -I -F -
 
 ################################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input

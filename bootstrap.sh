@@ -86,6 +86,11 @@ if test ! $(which brew); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+if [[ ! -f "${HOME}/.zprofile" ]] || ! grep -qF 'eval "$(/opt/homebrew/bin/brew shellenv)"' "${HOME}/.zprofile" ; then
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "${HOME}/.zprofile"
+fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 fancy_echo "Updating Homebrew..."
 brew update
 
@@ -96,12 +101,12 @@ brew bundle --quiet --file=- <<EOF
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-versions"
+tap "homebrew/cask-fonts"
 tap "homebrew/core"
-tap "kryptco/tap"
+#tap "kryptco/tap"
 #brew "apktool"
 brew "autoconf"
 brew "automake"
-brew "openssl@1.1"
 brew "azure-cli"
 brew "cmake"
 #brew "dfu-util"
@@ -112,11 +117,15 @@ brew "mackup"
 brew "mas"
 brew "ninja"
 brew "node"
+brew "openssl@1.1"
+brew "openssl"
 brew "pkg-config"
+brew "rust"
 brew "shellcheck"
 brew "vim"
 #brew "armmbed/formulae/arm-none-eabi-gcc"
-brew "kryptco/tap/kr"
+#brew "kryptco/tap/kr"
+cask "font-fira-code"
 cask "010-editor"
 #cask "adobe-acrobat-reader"
 #cask "adoptopenjdk15"
@@ -127,39 +136,44 @@ cask "docker"
 cask "dotnet-sdk"
 cask "gitkraken"
 cask "google-chrome"
+#cask "microsoft-edge"
 cask "gpg-suite"
 cask "iterm2"
 cask "lunar"
-cask "macs-fan-control"
 cask "magicavoxel"
 cask "midi-monitor"
 #cask "mono-mdk-for-visual-studio"
 cask "obs"
 cask "parallels"
-cask "powershell"
+#cask "powershell"
 cask "raspberry-pi-imager"
 cask "spotify"
+cask "tg-pro"
 cask "tor-browser"
 cask "ultimaker-cura"
-cask "visual-studio"
+#cask "visual-studio"
 cask "visual-studio-code"
-cask "vivaldi"
+#cask "vivaldi"
 cask "wireshark"
-mas "Compressor", id: 424390742
-mas "Final Cut Pro", id: 424389933
-mas "GoodNotes", id: 1444383602
-mas "Hex Fiend", id: 1342896380
-mas "iMovie", id: 408981434
-mas "Logic Pro", id: 634148309
+#mas "Compressor", id: 424390742
+#mas "Dark Reader for Safari", id: 1438243180
+#mas "Disk Speed Test", id: 425264550
+#mas "Final Cut Pro", id: 424389933
+#mas "GarageBand", id: 682658836
+#mas "GoodNotes", id: 1444383602
+#mas "Hex Fiend", id: 1342896380
+#mas "iMovie", id: 408981434
+#mas "Logic Pro", id: 634148309
 #mas "Magnet", id: 441258766
-mas "MainStage", id: 634159523
+#mas "MainStage", id: 634159523
 #mas "Microsoft Remote Desktop", id: 1295203466
-#mas "Monit", id: 1014850245
-mas "Moom", id: 419330170
-mas "Motion", id: 434290957
-mas "Pocket MIDI", id: 1260936756
-mas "Synalyze It! Pro", id: 475193367
-mas "Voxel Max", id: 1442352186
+#mas "Moom", id: 419330170
+#mas "Motion", id: 434290957
+#mas "Playgrounds", id: 1496833156
+#mas "Pocket MIDI", id: 1260936756
+#mas "Synalyze It! Pro", id: 475193367
+#mas "Tonebridge Guitar Effects", id: 1263858588
+#mas "Voxel Max", id: 1442352186
 #mas "Xcode", id: 497799835
 EOF
 
@@ -235,20 +249,6 @@ mv MesloLGS\ NF\ Regular.ttf ~/Library/Fonts
 mv MesloLGS\ NF\ Bold.ttf ~/Library/Fonts
 mv MesloLGS\ NF\ Italic.ttf ~/Library/Fonts
 mv MesloLGS\ NF\ Bold\ Italic.ttf ~/Library/Fonts
-
-curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Bold.ttf
-curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Light.ttf
-curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Medium.ttf
-curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Regular.ttf
-curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-Retina.ttf
-curl -fsSL --remote-name https://github.com/tonsky/FiraCode/raw/master/distr/ttf/FiraCode-SemiBold.ttf
-
-mv FiraCode-Bold.ttf ~/Library/Fonts
-mv FiraCode-Light.ttf ~/Library/Fonts
-mv FiraCode-Medium.ttf ~/Library/Fonts
-mv FiraCode-Regular.ttf ~/Library/Fonts
-mv FiraCode-Retina.ttf ~/Library/Fonts
-mv FiraCode-SemiBold.ttf ~/Library/Fonts
 
 ################################################################################
 # Mackup restore
