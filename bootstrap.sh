@@ -96,10 +96,15 @@ if test ! $(which brew); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+fancy_echo "Adding Homebrew to PATH..."
+
 if [[ ! -f "${HOME}/.zprofile" ]] || ! grep -qF 'eval "$(/opt/homebrew/bin/brew shellenv)"' "${HOME}/.zprofile" ; then
   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "${HOME}/.zprofile"
 fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+fancy_echo "Running 'brew doctor'..."
+brew doctor
 
 fancy_echo "Updating Homebrew..."
 brew update
@@ -118,6 +123,8 @@ tap "homebrew/bundle"
 #brew "armmbed/formulae/arm-none-eabi-gcc"
 brew "autoconf"
 brew "automake"
+#brew "openssl@1.1"
+brew "openssl"
 brew "azure-cli"
 brew "cmake"
 #brew "dfu-util"
@@ -129,8 +136,6 @@ brew "mackup"
 brew "mas"
 brew "ninja"
 brew "node"
-brew "openssl@1.1"
-brew "openssl"
 brew "pkg-config"
 #brew "python"
 brew "rust"
@@ -197,7 +202,7 @@ EOF
 #sudo xcodebuild -license accept
 
 # Fix ownership set by Parallels
-sudo chown -R $(id -un) /usr/local/share/man/man8
+#sudo chown -R $(id -un) /usr/local/share/man/man8
 
 fancy_echo "Cleaning up..."
 brew cleanup
@@ -286,10 +291,10 @@ mv MesloLGS\ NF\ Bold\ Italic.ttf ~/Library/Fonts
 # Set macOS preferences
 ################################################################################
 
-#fancy_echo "Setting macOS preferences..."
+fancy_echo "Setting macOS preferences..."
 
 # shellcheck source=/dev/null
-#source "${DOTFILES_DIR}/macos/macos-defaults.sh"
+source "${DOTFILES_DIR}/macos/macos-defaults.sh"
 
 ################################################################################
 # Peace out
